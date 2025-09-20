@@ -6,7 +6,9 @@ import com.tecsup.example.hexagonal.infrastructure.adapter.output.persistence.en
 import com.tecsup.example.hexagonal.infrastructure.adapter.output.persistence.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @Slf4j
 @RequiredArgsConstructor
 public class UserRepositoryAdapter implements UserRepository {
