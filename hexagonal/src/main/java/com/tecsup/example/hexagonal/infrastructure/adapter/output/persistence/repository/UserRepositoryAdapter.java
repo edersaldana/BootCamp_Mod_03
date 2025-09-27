@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @Slf4j
 @RequiredArgsConstructor
@@ -28,5 +30,10 @@ public class UserRepositoryAdapter implements UserRepository {
         log.info("User created: {}", entityCreated);
         // convertir; Entity to Domain
         return this.userMapper.toDomain(entityCreated);
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return this.jpaRepository.findById(id).map(this.userMapper::toDomain);
     }
 }
