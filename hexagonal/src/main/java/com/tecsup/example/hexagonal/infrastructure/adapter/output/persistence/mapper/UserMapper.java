@@ -32,6 +32,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "name")
     @Mapping(target = "email", source = "email")
+    @Mapping(target = "lastName", source = "lastName")
     User toDomain(UserRequest request);
 
 

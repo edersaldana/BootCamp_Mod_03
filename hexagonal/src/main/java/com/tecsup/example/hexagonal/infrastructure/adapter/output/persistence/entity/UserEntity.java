@@ -21,4 +21,7 @@ public class UserEntity {
 
     @Column(nullable = false, length = 150)
     private String email;
+
+    @Column(name = "lastname", nullable = false, length = 100)
+    private String lastName;
 }

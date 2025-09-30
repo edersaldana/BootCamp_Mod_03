@@ -8,4 +8,6 @@ public interface UserService {
     User create(User user);
 
     User findUser(Long id);
+
+    User findUserBylastName(String lastname);
 }

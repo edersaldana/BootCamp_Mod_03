@@ -14,6 +14,7 @@ public class User {
     private  Long id;
     private String name;
     private String email;
+    private String lastName;
 
     // Metodos de negocios
     public boolean hasValidEmail() {
@@ -21,6 +22,23 @@ public class User {
                 email.contains("@") &&
                 email.contains(".") &&
                 email.length() > 5;
+    }
+
+    public boolean hasValidName() {
+        return name != null &&
+                !name.trim().isEmpty() &&
+                name.length() >= 2;
+    }
+
+    public boolean hasValidatelastName() {
+        return lastName != null &&
+                !lastName.trim().isEmpty() &&
+                lastName.length() >= 2;
+    }
+
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", name='" + name + "', lastname= '" + lastName + "', email='" + email + "'}";
     }
 
 }
