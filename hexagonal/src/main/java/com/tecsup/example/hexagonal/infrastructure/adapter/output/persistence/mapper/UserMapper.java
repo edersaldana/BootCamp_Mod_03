@@ -2,10 +2,9 @@ package com.tecsup.example.hexagonal.infrastructure.adapter.output.persistence.m
 
 
 import com.tecsup.example.hexagonal.domain.model.User;
-import com.tecsup.example.hexagonal.infrastructure.adapter.input.dto.UserRequest;
-import com.tecsup.example.hexagonal.infrastructure.adapter.input.dto.UserResponse;
+import com.tecsup.example.hexagonal.infrastructure.adapter.input.rest.dto.UserRequest;
+import com.tecsup.example.hexagonal.infrastructure.adapter.input.rest.dto.UserResponse;
 import com.tecsup.example.hexagonal.infrastructure.adapter.output.persistence.entity.UserEntity;
-import org.mapstruct.MapMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

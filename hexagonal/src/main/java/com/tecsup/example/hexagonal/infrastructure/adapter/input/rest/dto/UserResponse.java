@@ -1,4 +1,4 @@
-package com.tecsup.example.hexagonal.infrastructure.adapter.input.dto;
+package com.tecsup.example.hexagonal.infrastructure.adapter.input.rest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

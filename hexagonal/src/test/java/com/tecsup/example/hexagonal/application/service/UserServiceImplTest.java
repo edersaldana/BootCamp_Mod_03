@@ -36,9 +36,10 @@ class UserServiceImplTest {
         String NAME = "Joel";
         String EMAIL = "joel@gmail.com";
         String LASTNAME = "Saldana";
+        String PASSWORD = "12345";
 
-        User newUser = new User(null, NAME, EMAIL, LASTNAME);
-        User saveUser = new User(ID, NAME, EMAIL, LASTNAME);
+        User newUser = new User(null, NAME, EMAIL, LASTNAME, PASSWORD);
+        User saveUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD);
 
         when(userRepository.save(newUser)).thenReturn(saveUser);
 
@@ -57,9 +58,10 @@ class UserServiceImplTest {
         String NAME = "Eder";
         String EMAIL = "eder@gmail.com";
         String LASTNAME = "Saldana";
+        String PASSWORD = "12345";
 
         // Initial Condition
-        User existingUser = new User(ID, NAME, EMAIL, LASTNAME);
+        User existingUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD);
 
         // Mocking the repository behavior
         when(userRepository.findById(100L)).thenReturn(Optional.of(existingUser));
@@ -96,15 +98,17 @@ class UserServiceImplTest {
         String NAME = "Eder";
         String EMAIL = "eder@gmail.com";
         String LASTNAME = "Saldana";
+        String PASSWORD = "12345";
+
 
         // Initial Condition
-        User existingUser = new User(ID, NAME, EMAIL, LASTNAME);
+        User existingUser = new User(ID, NAME, EMAIL, LASTNAME,PASSWORD);
 
         // Mocking the repository behavior
         when(userRepository.findBylastName(LASTNAME)).thenReturn(Optional.of(existingUser));
 
         // Execute the service method
-        User realUser = userService.findUserByLastName(LASTNAME);
+        User realUser = userService.findUserBylastName(LASTNAME);
 
         // Validate the results
         assertNotNull(realUser);
@@ -112,7 +116,7 @@ class UserServiceImplTest {
         // hope values, real values
         assertEquals(ID, realUser.getId());
         assertEquals(NAME, realUser.getName());
-        assertEquals(LASTNAME, realUser.getLastname());
+        assertEquals(LASTNAME, realUser.getLastName());
         assertEquals(EMAIL, realUser.getEmail());
 
     }

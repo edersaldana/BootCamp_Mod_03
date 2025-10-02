@@ -41,4 +41,9 @@ public class UserRepositoryAdapter implements UserRepository {
     public Optional<User> findBylastName(String lastname) {
         return this.jpaRepository.findBylastName(lastname).map(this.userMapper::toDomain);
     }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return this.jpaRepository.findByEmail(email).map(this.userMapper::toDomain);
+    }
 }
