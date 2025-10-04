@@ -37,9 +37,10 @@ class UserServiceImplTest {
         String EMAIL = "joel@gmail.com";
         String LASTNAME = "Saldana";
         String PASSWORD = "12345";
+        boolean ENABLED = true;
 
-        User newUser = new User(null, NAME, EMAIL, LASTNAME, PASSWORD);
-        User saveUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD);
+        User newUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD, ENABLED);
+        User saveUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD, ENABLED);
 
         when(userRepository.save(newUser)).thenReturn(saveUser);
 
@@ -59,9 +60,10 @@ class UserServiceImplTest {
         String EMAIL = "eder@gmail.com";
         String LASTNAME = "Saldana";
         String PASSWORD = "12345";
+        boolean ENABLED = true;
 
         // Initial Condition
-        User existingUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD);
+        User existingUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD, ENABLED);
 
         // Mocking the repository behavior
         when(userRepository.findById(100L)).thenReturn(Optional.of(existingUser));
@@ -99,10 +101,11 @@ class UserServiceImplTest {
         String EMAIL = "eder@gmail.com";
         String LASTNAME = "Saldana";
         String PASSWORD = "12345";
+        boolean ENABLED = true;
 
 
         // Initial Condition
-        User existingUser = new User(ID, NAME, EMAIL, LASTNAME,PASSWORD);
+        User existingUser = new User(ID, NAME, EMAIL, LASTNAME,PASSWORD, ENABLED);
 
         // Mocking the repository behavior
         when(userRepository.findBylastName(LASTNAME)).thenReturn(Optional.of(existingUser));

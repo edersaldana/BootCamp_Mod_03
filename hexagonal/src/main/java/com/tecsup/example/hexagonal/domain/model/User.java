@@ -16,6 +16,7 @@ public class User {
     private String email;
     private String lastName;
     private String password;
+    private boolean enabled;
 
     // Metodos de negocios
     public boolean hasValidEmail() {

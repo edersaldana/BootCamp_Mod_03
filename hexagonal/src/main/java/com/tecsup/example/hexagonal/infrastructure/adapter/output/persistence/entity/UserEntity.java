@@ -26,4 +26,7 @@ public class UserEntity {
     private String lastName;
 
     private String password;
+
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled;
 }

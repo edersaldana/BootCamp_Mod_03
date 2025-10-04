@@ -47,11 +47,12 @@ class UserControllerTest {
         String EMAIL = "eder@gmail.com";
         String LASTNAME = "eder@gmail.com";
         String PASSWORD = "12345";
+        boolean ENABLED = true;
 
 
         UserRequest request = new UserRequest(NAME, EMAIL, LASTNAME);
-        User newUser = new User(null, NAME, EMAIL, LASTNAME, PASSWORD); // UserRequest
-        User savedUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD);  // Save UserEntity
+        User newUser = new User(null, NAME, EMAIL, LASTNAME, PASSWORD, ENABLED); // UserRequest
+        User savedUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD, ENABLED);  // Save UserEntity
         UserResponse response   = new UserResponse(ID, NAME, EMAIL, LASTNAME);
 
         // Mocking the repository behavior

@@ -4,6 +4,7 @@ import com.tecsup.example.hexagonal.application.port.input.AuthService;
 import com.tecsup.example.hexagonal.application.port.output.UserRepository;
 import com.tecsup.example.hexagonal.domain.model.User;
 import com.tecsup.example.hexagonal.infrastructure.adapter.input.rest.dto.AuthResponse;
+import com.tecsup.example.hexagonal.infrastructure.adapter.output.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -12,6 +13,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public AuthResponse login(String email, String password) {
@@ -21,8 +23,15 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid enai, or password"));
 
-        if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("Invalid enai, or password");
+        // Is user enabled?
+        if (!user.isEnabled())
+            throw new IllegalArgumentException("User account is disabled");
+
+        // Check password
+        String passwordEncrypted = user.getPassword();
+
+        if (!passwordEncoder.matches(password, passwordEncrypted)) {
+            throw new IllegalArgumentException("Invalid email or password");
         }
 
         AuthResponse authResponse = new AuthResponse();
@@ -35,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String generateToken(User user) {
-        return "asdada12345916aa";
+        return jwtTokenProvider.generateToken(user);
     }
 
     private void validateData(String email, String password) {
