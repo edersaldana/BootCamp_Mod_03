@@ -10,9 +10,13 @@ import com.tecsup.example.hexagonal.infrastructure.adapter.input.rest.dto.UserRe
 import com.tecsup.example.hexagonal.infrastructure.adapter.output.persistence.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +28,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest request) {
         try {
 
@@ -51,7 +56,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getUser(@PathVariable Long id) {
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
         try {
 
             User user = this.userService.findUser(id);
@@ -64,6 +70,61 @@ public class UserController {
             log.error("Error fetching user with ID: {}", id, e);
             return ResponseEntity.badRequest().build();
 
+        }
+    }
+
+    @GetMapping("/LastName/{lastName}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserResponse> getUserByLastName(@PathVariable String lastName) {
+        try {
+
+            User user = this.userService.findUserBylastName(lastName);
+            UserResponse response = this.userMapper.toResponse(user);
+            return ResponseEntity.ok(response);
+        } catch (UserNotFoundException e) {
+            log.warn("User not found with LastName: {}", lastName);
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            log.error("Error fetching user with LastName: {}", lastName, e);
+            return ResponseEntity.badRequest().build();
+
+        }
+    }
+
+    @GetMapping("/Document/{dni}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserResponse> getUserByDNI(@PathVariable Integer dni) {
+        try {
+
+            User user = this.userService.findUserBydocumentNumber(dni);
+            UserResponse response = this.userMapper.toResponse(user);
+            return ResponseEntity.ok(response);
+        } catch (UserNotFoundException e) {
+            log.warn("User not found with DNI: {}", dni);
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            log.error("Error fetching user with DNI: {}", dni, e);
+            return ResponseEntity.badRequest().build();
+
+        }
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('MONITOR')")
+    public ResponseEntity<List<UserResponse>> getUsersByAge(@RequestParam("age") Integer age) {
+        try {
+            List<User> userList = userService.findUsersByAge(age);
+            log.info("Lista de usuarios {}", userList);
+            List<UserResponse> userResponseList = userList
+                    .stream()
+                    .map(this.userMapper::toResponse)
+                    .toList();
+            log.info("Lista de usuarios response {}", userResponseList);
+
+            return ResponseEntity.ok(userResponseList);
+        } catch (Exception e) {
+            log.error("Error fetching users with age lower than: {}", age, e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 

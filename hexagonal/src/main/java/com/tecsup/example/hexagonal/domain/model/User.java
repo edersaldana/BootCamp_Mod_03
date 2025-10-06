@@ -15,8 +15,13 @@ public class User {
     private String name;
     private String email;
     private String lastName;
+    private String secondLastName;
+    private Integer age;
+    private String documentNumber;
+    private Integer phoneNumber;
     private String password;
     private boolean enabled;
+    private Role role;
 
     // Metodos de negocios
     public boolean hasValidEmail() {
@@ -36,6 +41,10 @@ public class User {
         return lastName != null &&
                 !lastName.trim().isEmpty() &&
                 lastName.length() >= 2;
+    }
+
+    public boolean hasValidDocumentNumber() {
+        return documentNumber != null && documentNumber.length() == 8;
     }
 
     @Override

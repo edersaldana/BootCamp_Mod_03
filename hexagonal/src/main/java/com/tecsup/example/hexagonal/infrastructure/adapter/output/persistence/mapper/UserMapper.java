@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
@@ -32,8 +34,9 @@ public interface UserMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "email", source = "email")
     @Mapping(target = "lastName", source = "lastName")
+    @Mapping(target = "secondLastName", source = "secondLastName")
+    @Mapping(target = "documentNumber", source = "documentNumber")
     User toDomain(UserRequest request);
-
 
     UserResponse toResponse(User createUser);
 }

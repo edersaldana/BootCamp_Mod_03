@@ -13,6 +13,10 @@ public class UserRequest {
     private String name;
     private String email;
     private String lastName;
+    private String secondLastName;
+    private Integer age;
+    private Integer phoneNumber;
+    private String documentNumber;
 
 
 }

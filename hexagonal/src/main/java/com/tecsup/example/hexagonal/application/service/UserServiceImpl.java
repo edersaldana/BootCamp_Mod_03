@@ -4,8 +4,11 @@ import com.tecsup.example.hexagonal.application.port.input.UserService;
 import com.tecsup.example.hexagonal.application.port.output.UserRepository;
 import com.tecsup.example.hexagonal.domain.exception.InvalidUserDataException;
 import com.tecsup.example.hexagonal.domain.exception.UserNotFoundException;
+import com.tecsup.example.hexagonal.domain.model.Role;
 import com.tecsup.example.hexagonal.domain.model.User;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -18,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
         // Validation logic can be added here
         validateUserInput(user);
+
+        if(user.getRole() == null)
+            user.setRole(Role.USER);
 
         // Guardar el usuario usado en el repositorio
         return this.userRepository.save(user);
@@ -47,6 +53,28 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User findUserBydocumentNumber(Integer dni) {
+        if (dni == null || dni <= 0) {
+            throw new IllegalArgumentException("Invalid user DNI");
+        }
+
+        User user = this.userRepository.findBydocumentNumber(dni)
+                .orElseThrow( ()-> new UserNotFoundException(dni) );
+        return user;
+    }
+
+    @Override
+    public List<User> findUsersByAge(Integer age) {
+        if(age == null)
+            throw new IllegalArgumentException("Invalid user age");
+
+        List<User> user = this.userRepository.findByAge(age)
+                .orElseThrow( ()-> new UserNotFoundException(Long.valueOf(age)) );
+
+        return user;
+    }
+
     private void validateUserInput(User newUser) {
 
         if (!newUser.hasValidName())
@@ -57,6 +85,10 @@ public class UserServiceImpl implements UserService {
 
         if (!newUser.hasValidatelastName())
             throw new InvalidUserDataException("Invalid name");
+
+        if (!newUser.hasValidDocumentNumber()){
+            throw new InvalidUserDataException("Invalid documentNumber");
+        }
 
     }
 }

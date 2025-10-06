@@ -10,6 +10,11 @@ public class UserResponse {
 
     private Long id;
     private String name;
-    private String email;
     private String lastName;
+    private String secondLastName;
+    private Integer age;
+    private Integer phoneNumber;
+    private String documentNumber;
+    private String email;
+
 }

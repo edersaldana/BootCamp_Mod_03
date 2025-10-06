@@ -2,14 +2,15 @@ package com.tecsup.example.hexagonal.application.service;
 
 import com.tecsup.example.hexagonal.application.port.output.UserRepository;
 import com.tecsup.example.hexagonal.domain.exception.UserNotFoundException;
+import com.tecsup.example.hexagonal.domain.model.Role;
 import com.tecsup.example.hexagonal.domain.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,11 +37,35 @@ class UserServiceImplTest {
         String NAME = "Joel";
         String EMAIL = "joel@gmail.com";
         String LASTNAME = "Saldana";
+        String LASTSECONNAME = "More";
+        Integer AGE = 30;
+        String DNI = "45808698";
+        Integer PHONENUMBER = 955614940;
         String PASSWORD = "12345";
         boolean ENABLED = true;
+        Role role = new Role();
 
-        User newUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD, ENABLED);
-        User saveUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD, ENABLED);
+        User newUser = new User(ID,
+                                NAME,
+                                EMAIL,
+                                LASTNAME,
+                                LASTSECONNAME,
+                                AGE,
+                                DNI,
+                                PHONENUMBER,
+                                PASSWORD,
+                                ENABLED, role);
+
+        User saveUser = new User(ID,
+                                NAME,
+                                EMAIL,
+                                LASTNAME,
+                                LASTSECONNAME,
+                                AGE,
+                                DNI,
+                                PHONENUMBER,
+                                PASSWORD,
+                                ENABLED, role);
 
         when(userRepository.save(newUser)).thenReturn(saveUser);
 
@@ -59,11 +84,25 @@ class UserServiceImplTest {
         String NAME = "Eder";
         String EMAIL = "eder@gmail.com";
         String LASTNAME = "Saldana";
+        String LASTSECONNAME = "More";
+        Integer AGE = 30;
+        String DNI = "45808698";
+        Integer PHONENUMBER = 955614940;
         String PASSWORD = "12345";
         boolean ENABLED = true;
+        Role role = new Role();
 
         // Initial Condition
-        User existingUser = new User(ID, NAME, EMAIL, LASTNAME, PASSWORD, ENABLED);
+        User existingUser = new User(ID,
+                                     NAME,
+                                     EMAIL,
+                                     LASTNAME,
+                                     LASTSECONNAME,
+                                     AGE,
+                                     DNI,
+                                     PHONENUMBER,
+                                     PASSWORD,
+                                     ENABLED, role);
 
         // Mocking the repository behavior
         when(userRepository.findById(100L)).thenReturn(Optional.of(existingUser));
@@ -77,6 +116,11 @@ class UserServiceImplTest {
         // hope values, real values
         assertEquals(ID, realUser.getId());
         assertEquals(NAME, realUser.getName());
+        assertEquals(LASTNAME, realUser.getLastName());
+        assertEquals(LASTSECONNAME, realUser.getSecondLastName());
+        assertEquals(AGE, realUser.getAge());
+        assertEquals(DNI, realUser.getDocumentNumber());
+        assertEquals(PHONENUMBER, realUser.getPhoneNumber());
         assertEquals(EMAIL, realUser.getEmail());
 
     }
@@ -100,12 +144,25 @@ class UserServiceImplTest {
         String NAME = "Eder";
         String EMAIL = "eder@gmail.com";
         String LASTNAME = "Saldana";
+        String LASTSECONNAME = "More";
+        Integer AGE = 30;
+        String DNI = "45808698";
+        Integer PHONENUMBER = 955614940;
         String PASSWORD = "12345";
         boolean ENABLED = true;
-
+        Role role = new Role();
 
         // Initial Condition
-        User existingUser = new User(ID, NAME, EMAIL, LASTNAME,PASSWORD, ENABLED);
+        User existingUser = new User(ID,
+                                    NAME,
+                                    EMAIL,
+                                    LASTNAME,
+                                    LASTSECONNAME,
+                                    AGE,
+                                    DNI,
+                                    PHONENUMBER,
+                                    PASSWORD,
+                                    ENABLED, role);
 
         // Mocking the repository behavior
         when(userRepository.findBylastName(LASTNAME)).thenReturn(Optional.of(existingUser));
@@ -120,9 +177,104 @@ class UserServiceImplTest {
         assertEquals(ID, realUser.getId());
         assertEquals(NAME, realUser.getName());
         assertEquals(LASTNAME, realUser.getLastName());
+        assertEquals(LASTSECONNAME, realUser.getSecondLastName());
+        assertEquals(AGE, realUser.getAge());
+        assertEquals(DNI, realUser.getDocumentNumber());
+        assertEquals(PHONENUMBER, realUser.getPhoneNumber());
         assertEquals(EMAIL, realUser.getEmail());
 
     }
+
+    @Test
+    void findUserBydocumentNumber() {
+        Long ID = 100L;
+        String NAME = "Eder";
+        String EMAIL = "eder@gmail.com";
+        String LASTNAME = "Saldana";
+        String LASTSECONNAME = "More";
+        Integer AGE = 30;
+        String DNI = "45808698";
+        Integer PHONENUMBER = 955614940;
+        String PASSWORD = "12345";
+        boolean ENABLED = true;
+        Role role = new Role();
+
+        // Initial Condition
+        User existingUser = new User(ID,
+                                    NAME,
+                                    EMAIL,
+                                    LASTNAME,
+                                    LASTSECONNAME,
+                                    AGE,
+                                    DNI,
+                                    PHONENUMBER,
+                                    PASSWORD,
+                                    ENABLED, role);
+
+        // Mocking the repository behavior
+        when(userRepository.findBydocumentNumber(Integer.valueOf(DNI))).thenReturn(Optional.of(existingUser));
+
+        // Execute the service method
+        User realUser = userService.findUserBydocumentNumber(Integer.valueOf(DNI));
+
+        // Validate the results
+        assertNotNull(realUser);
+
+        // hope values, real values
+        assertEquals(ID, realUser.getId());
+        assertEquals(NAME, realUser.getName());
+        assertEquals(LASTNAME, realUser.getLastName());
+        assertEquals(LASTSECONNAME, realUser.getSecondLastName());
+        assertEquals(AGE, realUser.getAge());
+        assertEquals(DNI, realUser.getDocumentNumber());
+        assertEquals(PHONENUMBER, realUser.getPhoneNumber());
+        assertEquals(EMAIL, realUser.getEmail());
+    }
+
+    @Test
+    void findUserByAge() {
+        Long ID = 100L;
+        String NAME = "Eder";
+        String EMAIL = "eder@gmail.com";
+        String LASTNAME = "Saldana";
+        String LASTSECONNAME = "More";
+        Integer AGE = 30;
+        String DNI = "45808698";
+        Integer PHONENUMBER = 955614940;
+        String PASSWORD = "12345";
+        boolean ENABLED = true;
+        Role role = new Role();
+
+        // Initial Condition
+        User existingUser = new User(ID,
+                                    NAME,
+                                    EMAIL,
+                                    LASTNAME,
+                                    LASTSECONNAME,
+                                    AGE,
+                                    DNI,
+                                    PHONENUMBER,
+                                    PASSWORD,
+                                    ENABLED, role);
+
+        // Mocking the repository behavior
+        List<User> users = List.of(existingUser);
+        when(userRepository.findByAge(AGE)).thenReturn(Optional.of(users));
+
+        // Execute the service method
+        List<User> realUsers = userService.findUsersByAge(AGE);
+
+        // Validate the results
+        assertNotNull(realUsers);
+        assertFalse(realUsers.isEmpty());
+
+        User realUser = realUsers.get(0);
+        assertEquals(ID, realUser.getId());
+        assertEquals(NAME, realUser.getName());
+        assertEquals(AGE, realUser.getAge());
+    }
+
+
 
 }
 
